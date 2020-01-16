@@ -9,8 +9,8 @@ class FunPatient
     public function addUser($con,$idNumber,$fname, $lname, $cellNumber, $email, $passwords, $role) {
 		
 		$password = password_hash($passwords, PASSWORD_DEFAULT);
-		    $checkIdnumber = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM tblpatient WHERE id_number = '$idNumber'"));
-			$checkMail = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM tblpatient WHERE email = '$email'"));
+		    $checkIdnumber = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM tbluser WHERE id_number = '$idNumber'"));
+			$checkMail = mysqli_fetch_array(mysqli_query($con,"SELECT * FROM tbluser WHERE email = '$email'"));
 		if(isset($checkIdnumber)) 
 		{
 			return "ID number already exist";
@@ -54,7 +54,7 @@ class FunPatient
 										  }
 			//--------------------------------------------------------------
  			$sql = "INSERT INTO tbllogin(patient_code,pwd,role) VALUES('$patientCd','$password','$role')";
-			$sqlUser = "INSERT INTO tblpatient(patient_code,fname,lname,id_number,email,cell) VALUES('$patientCd','$fname','$lname','$idNumber','$email','$cellNumber')";
+			$sqlUser = "INSERT INTO tbluser(patient_code,fname,lname,id_number,email,cell) VALUES('$patientCd','$fname','$lname','$idNumber','$email','$cellNumber')";
 			if(mysqli_query($con,$sql) AND mysqli_query($con,$sqlUser)) {	
 			 return "Successfully registered           user Code: ".$patientCd;
 			} else  {
@@ -66,7 +66,7 @@ class FunPatient
 
 	
  	 public function signin($username, $password, $con, $userRole) {		
-        $result = mysqli_query($con,"SELECT l.patient_code, l.pwd,l.role,p.fname,p.lname,p.id_number,p.email,p.cell FROM tbllogin l, tblpatient p where l.patient_code = '$username' OR p.email = '$username'");
+        $result = mysqli_query($con,"SELECT l.patient_code, l.pwd,l.role,p.fname,p.lname,p.id_number,p.email,p.cell FROM tbllogin l, tbluser p where l.patient_code = '$username' OR p.email = '$username'");
 		if($row = mysqli_fetch_array($result)){
 			if(password_verify($password, $row["pwd"])){
 					$role = $row["role"];
@@ -108,7 +108,7 @@ class FunPatient
 		public function getallPatients($con,$role) {
 		if($role=="patient")
 		{
-        $sql = "SELECT l.patient_code, l.pwd,l.role,p.fname,p.lname,p.id_number,p.email,p.cell FROM tbllogin l, tblpatient p where p.patient_code = l.patient_code AND l.role NOT LIKE '%admin%'";
+        $sql = "SELECT l.patient_code, l.pwd,l.role,p.fname,p.lname,p.id_number,p.email,p.cell FROM tbllogin l, tbluser p where p.patient_code = l.patient_code AND l.role NOT LIKE '%admin%'";
 		$check = mysqli_fetch_array(mysqli_query($con,$sql));
 		$result = array();
 		if(isset($check)){
@@ -116,7 +116,7 @@ class FunPatient
 		}
 		return $result;
 		}else{
-			   $sql = "SELECT l.patient_code, l.pwd,l.role,p.fname,p.lname,p.id_number,p.email,p.cell FROM tbllogin l, tblpatient p where p.patient_code = l.patient_code AND l.role NOT LIKE '%patient%'";
+			   $sql = "SELECT l.patient_code, l.pwd,l.role,p.fname,p.lname,p.id_number,p.email,p.cell FROM tbllogin l, tbluser p where p.patient_code = l.patient_code AND l.role NOT LIKE '%patient%'";
 		$check = mysqli_fetch_array(mysqli_query($con,$sql));
 		$result = array();
 		if(isset($check)){
@@ -189,7 +189,7 @@ class FunPatient
 	
 	
 		public function deletePatient($con, $pCode){
-        $sql = "DELETE from tblpatient where patient_code ='$pCode'";
+        $sql = "DELETE from tbluser where patient_code ='$pCode'";
 		$sqlLogin = "DELETE from tbllogin where patient_code ='$pCode'";
 		$sqlAppoint = "DELETE from tblappointment where patient_code ='$pCode'";
 		
@@ -215,7 +215,7 @@ class FunPatient
 	
 		if($pass==1)
 		{
-			$check = mysqli_query($con,"SELECT patient_code from tblpatient where id_number='$id' ");
+			$check = mysqli_query($con,"SELECT patient_code from tbluser where id_number='$id' ");
 					if($row = mysqli_fetch_array($check)){
 						$userCode = $row["patient_code"];
 						 
