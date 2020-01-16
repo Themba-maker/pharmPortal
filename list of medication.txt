@@ -1,0 +1,34 @@
+CREATE TABLE tbldiseases(disease LONGTEXT )VALUES(“Asthma”,”Flu”,”Pneumonia”,”Brouchitis”,”Diabittes Mellitus Type 2”,”Hypertension”,”Gout”,”Heart Failure”,”Simutis”,”Headache”,”Backpain”,”Gastroeuteritis/Running Stomach”,”Fungal infection”,”Ear infection”,”Toothache”);
+
+CREATE TABLE tblappointment(id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,patient_code VARCHAR(15) NOT NULL,appoint_date date NOT NULL, appoint_time VARCHAR(11) NOT NULL)
+
+
+
+
+
+ASTHAVENT INHALER
+BUDEFIAM INHALER
+GRIPPON
+FAMUCAPS
+DPH COUGH MIXTURE
+ANGMEUTIA
+PANADO
+THEOPHEM
+ASTHAVENT INHALER
+METFORMIN
+CAPTOPUL
+ENALAPRIL
+PURICOS
+LASIX
+SLOWK
+ALLECET
+BECLATE NASAL SPRAY
+POUSTON 
+BRUFEN
+TREPILINE
+TRAMADOC
+CIPROBOY
+BUSCOPN
+MICROCIDAL
+AMAXYCILIN
+TRAMADOL
